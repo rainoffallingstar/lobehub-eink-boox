@@ -1,27 +1,20 @@
 # LobeHub E-Ink for BOOX Leaf5C
 
-Unofficial Android WebView shell for [LobeHub Cloud](https://app.lobehub.com), optimized for BOOX Leaf5C. Not affiliated with LobeHub or BOOX.
+Unofficial minimal Android WebView client for https://app.lobehub.com/ on BOOX e-ink tablets. Not affiliated with BOOX or LobeHub.
 
-## Get APK
+## Get your APK
 
-Open **Actions → Build BOOX Leaf5C APK** and select the latest successful build, or click **Run workflow**. Download the `LobeHub-EInk-Leaf5C-APK` artifact, unzip it, and install `LobeHub-EInk-Leaf5C-debug.apk` on your BOOX.
+Open **Actions → Build BOOX Leaf5C APK**. Select the latest successful run (or use **Run workflow**), then download the artifact **LobeHub-EInk-Leaf5C-APK**. Extract and install `LobeHub-EInk-Leaf5C-debug.apk`.
 
-- Android 6.0+ (`minSdk 23`)
-- No native shared libraries (`.so`): ABI-independent APK for 32/64-bit Android
-- Java WebView with file picker, back navigation, high-contrast/light display guidance and optional animation reduction
-- Uses the system WebView; very old WebView versions may not support the live LobeHub site
-- BOOX refresh mode is configured through the device's E-Ink Center / EinkWise; no proprietary SDK included
-- Google OAuth may block embedded WebViews. Browser logins do not transfer automatically into the app.
+This app uses Java and the system WebView, so the APK is **ABI-independent** with no native `.so` files (32-bit ARM compatible subject to Android OS and WebView version). Android 6.0+ is required. The build uses JDK 17, Gradle 8.9 and Android Gradle Plugin 8.7.3.
 
-The artifact is a **debug-signed** APK; CI runner-generated signing keys may change between runs. Reinstallation might require uninstalling the old APK (which clears app-local storage). Do not rely on local data as the only copy.
+The toolbar has Home, Reload, e-ink CSS toggle and Open in Browser. Configure HD/Speed refresh using BOOX's E-Ink Center, and select LobeHub's light theme. Google OAuth may refuse embedded WebView sign-in. Downloads are delegated to the browser and authenticated downloads may fail.
 
-## Local build
+**Signing note:** CI debug APK signing keys may differ between runs, preventing in-place updates. Uninstalling will erase local app data. A persistent release keystore can be added later.
 
-With JDK 17, Android SDK 35, and Gradle 8.9 installed:
+### Local build
 
-```sh
+```bash
 gradle --no-daemon assembleDebug
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
-
-Project files are committed directly to the repository root. The CI checks that the built APK contains no native `.so` libraries.
